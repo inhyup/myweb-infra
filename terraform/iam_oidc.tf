@@ -70,6 +70,7 @@ resource "aws_iam_role_policy" "github_actions_policy" {
           "ec2:Describe*",
           "ec2:Get*"
         ]
+        #checkov:skip=CKV_AWS_355: ec2:Describe* actions do not support resource-level permissions
         Resource = "*"
       },
       {

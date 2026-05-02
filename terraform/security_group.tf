@@ -2,6 +2,9 @@ resource "aws_security_group" "web_sg" {
   name        = "${var.project_name}-web-sg"
   description = "Security group for web servers"
 
+  #checkov:skip=CKV_AWS_260: HTTP must be open for public web server 
+  #checkov:skip=CKV_AWS_382: Outbound traffic required for web server
+
   # HTTP
   ingress {
     from_port   = 80
