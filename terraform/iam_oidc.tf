@@ -71,6 +71,8 @@ resource "aws_iam_role_policy" "github_actions_policy" {
           "ec2:Get*"
         ]
         #checkov:skip=CKV_AWS_355: ec2:Describe* actions do not support resource-level permissions
+        #checkov:skip=CKV_AWS_287: Credentials exposure risk accepted for Terraform state access
+        #checkov:skip=CKV_AWS_290: Write access required for Terraform state management
         Resource = "*"
       },
       {

@@ -4,6 +4,7 @@ resource "aws_security_group" "web_sg" {
 
   #checkov:skip=CKV_AWS_260: HTTP must be open for public web server 
   #checkov:skip=CKV_AWS_382: Outbound traffic required for web server
+  #checkov:skip=CKV2_AWS_5: SG will be attached to EC2 instance
 
   # HTTP
   ingress {
