@@ -32,18 +32,18 @@ GitHub (push)
 
 ## Repository structure
 
-myweb-infra/
+myweb-infra/  
 ├── terraform/
-│ ├── versions.tf # Provider and backend config
-│ ├── variables.tf # Input variables
-│ ├── outputs.tf # Output values
-│ ├── iam_oidc.tf # GitHub OIDC provider and IAM role
-│ ├── s3_website.tf # S3 bucket for website hosting
-│ ├── acm.tf # SSL certificate
-│ ├── cloudfront.tf # CloudFront distribution
-│ └── route53.tf # DNS records
-└── .github/
-└── workflows/
+│ ├── versions.tf # Provider and backend config  
+│ ├── variables.tf # Input variables  
+│ ├── outputs.tf # Output values  
+│ ├── iam_oidc.tf # GitHub OIDC provider and IAM role  
+│ ├── s3_website.tf # S3 bucket for website hosting  
+│ ├── acm.tf # SSL certificate  
+│ ├── cloudfront.tf # CloudFront distribution  
+│ └── route53.tf # DNS records  
+└── .github/  
+└── workflows/  
 └── security-scan.yml # Checkov automated scan
 
 ## Certifications
