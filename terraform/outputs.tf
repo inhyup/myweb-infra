@@ -3,8 +3,12 @@ output "github_actions_role_arn" {
   value       = aws_iam_role.github_actions.arn
 }
 
-output "secuirty_group_id" {
-  description = "ID of the security group for web servers"
-  value       = aws_security_group.web_sg.id
+output "cloudfront_domain" {
+  description = "CloudFront domain name"
+  value       = aws_cloudfront_distribution.website.domain_name
 }
 
+output "website_url" {
+  description = "Website URL"
+  value       = "https://${var.domain_name}"
+}

@@ -31,3 +31,9 @@ variable "github_repo" {
   type        = string
   default     = "myweb-infra"
 }
+
+variable "route53_zone_id" {
+  description = "Route 53 Hosted Zone ID"
+  type        = string
+  default     = "Z3D6Y3KC61Y1GI"
+}
