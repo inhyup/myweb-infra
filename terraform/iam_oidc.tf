@@ -62,8 +62,8 @@ resource "aws_iam_role_policy" "github_actions_policy" {
           "s3:ListBucket",
           "s3:DeleteObject"
         ]
-        #checkov:skip=CKV_AWS_287: Write access required for Terraform state management
-        #checkov:skip=CKV_AWS_290: Write access required for Terraform state management
+        #checkov:skip=CKV_AWS_287: Write access required for Terraform state
+        #checkov:skip=CKV_AWS_290: Write access required for Terraform state
         Resource = [
           "arn:aws:s3:::inhyup-tfstate-us-west-2",
           "arn:aws:s3:::inhyup-tfstate-us-west-2/*"
@@ -84,12 +84,47 @@ resource "aws_iam_role_policy" "github_actions_policy" {
         ]
       },
       {
-        Sid    = "CloudFrontInvalidation"
+        Sid      = "CloudFrontInvalidation"
+        Effect   = "Allow"
+        Action   = ["cloudfront:CreateInvalidation"]
+        Resource = "arn:aws:cloudfront::950888816014:distribution/E3VJ5I0Y143934"
+      },
+      {
+        Sid    = "TerraformPlanReadOnly"
         Effect = "Allow"
         Action = [
-          "cloudfront:CreateInvalidation"
+          "acm:DescribeCertificate",
+          "acm:ListCertificates",
+          "acm:GetCertificate",
+          "cloudfront:GetDistribution",
+          "cloudfront:GetDistributionConfig",
+          "cloudfront:ListDistributions",
+          "cloudfront:GetOriginAccessControl",
+          "cloudfront:ListOriginAccessControls",
+          "cloudfront:GetResponseHeadersPolicy",
+          "cloudfront:ListResponseHeadersPolicies",
+          "iam:GetOpenIDConnectProvider",
+          "iam:GetRole",
+          "iam:GetRolePolicy",
+          "iam:ListRolePolicies",
+          "iam:ListAttachedRolePolicies",
+          "route53:GetHostedZone",
+          "route53:ListHostedZones",
+          "route53:ListResourceRecordSets",
+          "route53:ChangeResourceRecordSets",
+          "s3:GetBucketPolicy",
+          "s3:GetBucketVersioning",
+          "s3:GetBucketPublicAccessBlock",
+          "s3:GetBucketOwnershipControls",
+          "s3:GetBucketLogging",
+          "s3:GetEncryptionConfiguration",
+          "s3:GetLifecycleConfiguration",
+          "s3:GetBucketNotification",
+          "s3:GetReplicationConfiguration",
+          "s3:ListBucket"
         ]
-        Resource = "arn:aws:cloudfront::950888816014:distribution/E3VJ5I0Y143934"
+        #checkov:skip=CKV_AWS_355: Read-only actions require wildcard resource
+        Resource = "*"
       },
       {
         Sid    = "EC2ReadOnly"
@@ -99,17 +134,6 @@ resource "aws_iam_role_policy" "github_actions_policy" {
           "ec2:Get*"
         ]
         #checkov:skip=CKV_AWS_355: ec2:Describe* does not support resource-level permissions
-        Resource = "*"
-      },
-      {
-        Sid    = "Route53Access"
-        Effect = "Allow"
-        Action = [
-          "route53:GetHostedZone",
-          "route53:ListHostedZones",
-          "route53:ListResourceRecordSets",
-          "route53:ChangeResourceRecordSets"
-        ]
         Resource = "*"
       }
     ]
