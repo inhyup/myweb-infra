@@ -59,6 +59,7 @@ resource "aws_iam_role_policy" "github_actions_policy" {
         Action = [
           "s3:GetObject",
           "s3:PutObject",
+          "s3:GetBucketCors",
           "s3:ListBucket",
           "s3:DeleteObject"
         ]
@@ -74,6 +75,7 @@ resource "aws_iam_role_policy" "github_actions_policy" {
           "s3:GetObject",
           "s3:PutObject",
           "s3:DeleteObject",
+          "s3:GetBucketCors",
           "s3:ListBucket"
         ]
         Resource = [
@@ -123,6 +125,7 @@ resource "aws_iam_role_policy" "github_actions_policy" {
           "s3:GetLifecycleConfiguration",
           "s3:GetBucketNotification",
           "s3:GetReplicationConfiguration",
+          "s3:GetBucketCors",
           "s3:ListBucket"
         ]
         Resource = "*"
