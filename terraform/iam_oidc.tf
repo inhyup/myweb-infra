@@ -84,7 +84,8 @@ resource "aws_iam_role_policy" "github_actions_policy" {
           "cloudfront:GetOriginAccessControl",
           "cloudfront:ListOriginAccessControls",
           "cloudfront:GetResponseHeadersPolicy",
-          "cloudfront:ListResponseHeadersPolicies"
+          "cloudfront:ListResponseHeadersPolicies",
+          "cloudfront:ListTagsForResource"
         ]
         Resource = "*"
       },

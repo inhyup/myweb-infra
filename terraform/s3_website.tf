@@ -1,4 +1,5 @@
 resource "aws_s3_bucket" "website" {
+  #checkov:skip=CKV_AWS_18: Access logging to cf_logs bucket configured via CloudFront
   #checkov:skip=CKV_AWS_145: KMS encryption not required for public static site
   #checkov:skip=CKV_AWS_144: Cross-region replication not required for personal site
   #checkov:skip=CKV2_AWS_62: Event notifications not required for personal site
