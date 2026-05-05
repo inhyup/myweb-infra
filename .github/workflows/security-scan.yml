@@ -48,3 +48,28 @@ jobs:
           scan-ref: terraform/
           severity: HIGH,CRITICAL
           format: table
+
+    terraform-plan:
+      name: Terraform Plan
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout code
+          uses: actions/checkout@v4
+
+        - name: Configure AWS credentials (OIDC)
+          uses: aws-actions/configure-aws-credentials@v4
+          with:
+            role-to-assume: arn:aws:iam::950888816014:role/myweb-github-actions-role
+            aws-region: us-west-2
+
+        - name: Setup Terraform
+          uses: hashicorp/setup-terraform@v3
+
+        - name: Terraform Init
+          wroking-directory: terraform
+          run: terraform init
+
+        - name: Terraform Plan
+          working-directory: terraform
+          run: terraform plan -var="my_ip=0.0.0.0/0" -var="domain_name=inhyup.com"
+          continue-on-error: false

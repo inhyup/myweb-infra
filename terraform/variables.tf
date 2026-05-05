@@ -37,3 +37,9 @@ variable "route53_zone_id" {
   type        = string
   default     = "Z3D6Y3KC61Y1GI"
 }
+
+variable "aws_account_id" {
+  description = "AWS Account ID"
+  type        = string
+  default     = "950888816014"
+}
