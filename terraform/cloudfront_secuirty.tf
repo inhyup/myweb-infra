@@ -7,6 +7,7 @@ resource "aws_s3_bucket" "cf_logs" {
   #checkov:skip=CKV2_AWS_61: Lifecycle configuration not required for log bucket
   #checkov:skip=CKV2_AWS_65: ACL disabled by default, ownership controls set
   #checkov:skip=CKV2_AWS_62: Event notifications not required for log bucket
+  #checkov:skip=CKV2_AWS_65: ACL disabled, ownership controls handle this
   bucket = "${var.project_name}-cf-logs-${var.aws_account_id}"
 
   tags = {
