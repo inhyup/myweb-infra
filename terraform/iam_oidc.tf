@@ -45,6 +45,12 @@ resource "aws_iam_role" "github_actions" {
   }
 }
 
+# AWS Managed Policy
+resource "aws_iam_role_policy_attachment" "s3_read" {
+  role       = aws_iam_role.github_actions.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess"
+}
+
 # Github Actions IAM Policy
 resource "aws_iam_role_policy" "github_actions_policy" {
   name = "${var.project_name}-github-actions-policy"
@@ -56,77 +62,64 @@ resource "aws_iam_role_policy" "github_actions_policy" {
       {
         Sid    = "TerraformStateAccess"
         Effect = "Allow"
+        #checkov:skip=CKV_AWS_290: Write access required for Terraform state
+        #checkov:skip=CKV_AWS_287: Write access required for Terraform state
         Action = [
-          "s3:GetObject",
           "s3:PutObject",
-          "s3:GetBucketCors",
-          "s3:ListBucket",
           "s3:DeleteObject"
         ]
         Resource = [
-          "arn:aws:s3:::inhyup-tfstate-us-west-2",
-          "arn:aws:s3:::inhyup-tfstate-us-west-2/*"
-        ]
-      },
-      {
-        Sid    = "WebsiteS3Access"
-        Effect = "Allow"
-        Action = [
-          "s3:GetObject",
-          "s3:PutObject",
-          "s3:DeleteObject",
-          "s3:GetBucketCors",
-          "s3:ListBucket"
-        ]
-        Resource = [
-          "arn:aws:s3:::inhyup.com",
+          "arn:aws:s3:::inhyup-tfstate-us-west-2/*",
           "arn:aws:s3:::inhyup.com/*"
         ]
       },
       {
-        Sid    = "CloudFrontInvalidation"
+        Sid    = "CloudFrontAccess"
         Effect = "Allow"
-        Action = ["cloudfront:CreateInvalidation"]
-        Resource = "arn:aws:cloudfront::950888816014:distribution/E3VJ5I0Y143934"
-      },
-      {
-        Sid    = "TerraformPlanReadOnly"
-        Effect = "Allow"
-        #checkov:skip=CKV_AWS_355: Read-only actions require wildcard resource
         Action = [
-          "acm:DescribeCertificate",
-          "acm:ListCertificates",
-          "acm:GetCertificate",
-          "acm:ListTagsForCertificate",
+          "cloudfront:CreateInvalidation",
           "cloudfront:GetDistribution",
           "cloudfront:GetDistributionConfig",
           "cloudfront:ListDistributions",
           "cloudfront:GetOriginAccessControl",
           "cloudfront:ListOriginAccessControls",
           "cloudfront:GetResponseHeadersPolicy",
-          "cloudfront:ListResponseHeadersPolicies",
-          "iam:GetOpenIDConnectProvider",
-          "iam:GetRole",
-          "iam:GetRolePolicy",
-          "iam:ListRolePolicies",
-          "iam:ListAttachedRolePolicies",
+          "cloudfront:ListResponseHeadersPolicies"
+        ]
+        Resource = "*"
+      },
+      {
+        Sid    = "ACMReadOnly"
+        Effect = "Allow"
+        Action = [
+          "acm:DescribeCertificate",
+          "acm:ListCertificates",
+          "acm:GetCertificate",
+          "acm:ListTagsForCertificate"
+        ]
+        Resource = "*"
+      },
+      {
+        Sid    = "Route53Access"
+        Effect = "Allow"
+        Action = [
           "route53:GetHostedZone",
           "route53:ListHostedZones",
           "route53:ListResourceRecordSets",
           "route53:ChangeResourceRecordSets",
-          "route53:ListTagsForResource",
-          "s3:GetBucketPolicy",
-          "s3:GetBucketVersioning",
-          "s3:GetBucketPublicAccessBlock",
-          "s3:GetBucketOwnershipControls",
-          "s3:GetBucketLogging",
-          "s3:GetBucketAcl",
-          "s3:GetEncryptionConfiguration",
-          "s3:GetLifecycleConfiguration",
-          "s3:GetBucketNotification",
-          "s3:GetReplicationConfiguration",
-          "s3:GetBucketCors",
-          "s3:ListBucket"
+          "route53:ListTagsForResource"
+        ]
+        Resource = "*"
+      },
+      {
+        Sid    = "IAMReadOnly"
+        Effect = "Allow"
+        Action = [
+          "iam:GetOpenIDConnectProvider",
+          "iam:GetRole",
+          "iam:GetRolePolicy",
+          "iam:ListRolePolicies",
+          "iam:ListAttachedRolePolicies"
         ]
         Resource = "*"
       },
