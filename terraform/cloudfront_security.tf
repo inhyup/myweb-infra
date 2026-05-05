@@ -1,15 +1,13 @@
 # CloudFront Access Log Bucket
 resource "aws_s3_bucket" "cf_logs" {
-  #checkov:skip=CKV_AWS_18: Access logging on log bucket itself not required
-  #checkov:skip=CKV_AWS_21: Versioning not required for log bucket
-  #checkov:skip=CKV_AWS_145: KMS encryption not required for log bucket
-  #checkov:skip=CKV_AWS_144: Cross-region replication not required for log bucket
   #checkov:skip=CKV_AWS_18: Log bucket does not need self-logging
-  #checkov:skip=CKV2_AWS_65: ACL disabled, ownership controls set
+  #checkov:skip=CKV_AWS_21: Versioning not required for log bucket  
   #checkov:skip=CKV2_AWS_61: Lifecycle configuration not required for log bucket
-  #checkov:skip=CKV2_AWS_65: ACL disabled by default, ownership controls set
   #checkov:skip=CKV2_AWS_62: Event notifications not required for log bucket
-  #checkov:skip=CKV2_AWS_65: ACL disabled, ownership controls handle this
+  #checkov:skip=CKV2_AWS_65: ACL disabled, ownership controls set
+  #checkov:skip=CKV_AWS_144: Cross-region replication not required for log bucket
+    #checkov:skip=CKV_AWS_145: KMS encryption not required for log bucket
+
   bucket = "${var.project_name}-cf-logs-${var.aws_account_id}"
 
   tags = {
@@ -28,8 +26,8 @@ resource "aws_s3_bucket_public_access_block" "cf_logs" {
 }
 
 resource "aws_s3_bucket_ownership_controls" "cf_logs" {
+  #checkov:skip=CKV_AWS_18: Ownership controls resource does not need access logging
   bucket = aws_s3_bucket.cf_logs.id
-
   rule {
     object_ownership = "BucketOwnerPreferred"
   }
