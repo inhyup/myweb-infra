@@ -66,7 +66,7 @@ jobs:
         uses: hashicorp/setup-terraform@v3
 
       - name: Terraform Init
-        wroking-directory: terraform
+        working-directory: terraform
         run: terraform init
 
       - name: Terraform Plan
